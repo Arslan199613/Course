@@ -1,7 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Task implements NextTask{
+public abstract class Task implements NextTask{
 
 
 
@@ -15,58 +15,32 @@ public class Task implements NextTask{
     private NumberOfTasks numberOfTasks;
     private LocalDateTime localDateTime;
     private static int id;
+    private static int count = 1;
+    private boolean deleted;
+    
 
+    public Task(String heading, String description, TypeOfTask typeOfTask) {
+        setHeading(heading);
+        setDescription(description);
+        this.numberOfTasks = getNumberOfTasks();
+        this.typeOfTask = typeOfTask;
+        setDeleted(false);
+        this.id = count++;
+        }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
 
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
-    public Task(String heading, String description, TypeOfTask typeOfTask, NumberOfTasks numberOfTasks, LocalDateTime localDateTime) {
-        if (heading == null && !heading.isEmpty() && !heading.isBlank()) {
-            throw new RuntimeException("Поле пустое");
-        } else {
-            this.heading = heading;
-        }
-        if (description == null && !heading.isEmpty() && !heading.isBlank()) {
-            throw new RuntimeException("Поле пустое");
-        } else {
-            this.description = description;
-        }
-        if (typeOfTask == null && !heading.isEmpty() && !heading.isBlank()) {
-            throw new RuntimeException("Поле пустое");
-        } else {
-            this.typeOfTask = typeOfTask;
-        }
-        if (numberOfTasks == null && !heading.isEmpty() && !heading.isBlank()) {
-            throw new RuntimeException("Поле пустое");
-        } else {
-            this.numberOfTasks = numberOfTasks;
-        }
-        if (localDateTime == null && !heading.isEmpty() && !heading.isBlank()) {
-            throw new RuntimeException("Поле пустое");
-        } else {
-            this.localDateTime = localDateTime;
-            this.id = id;
-        }
+    @Override
+    public LocalDateTime getTime() {
+        return localDateTime;
     }
     public Task() {
-    }
-    @Override
-    public LocalDateTime getNextDay() {
-        return localDateTime.plusDays(1);
-    }
-
-    @Override
-    public LocalDateTime getNextWeek() {
-        return localDateTime.plusWeeks(1);
-    }
-
-    @Override
-    public LocalDateTime getNextMonth() {
-        return localDateTime.plusMonths(1);
-    }
-
-    @Override
-    public LocalDateTime getNextYear() {
-        return localDateTime.plusYears(1);
     }
 
     public String getHeading() {
@@ -74,7 +48,7 @@ public class Task implements NextTask{
     }
 
     public int getId() {
-        return id++;
+        return id;
     }
 
     public void setId(int id) {
@@ -88,7 +62,9 @@ public class Task implements NextTask{
     public void setLocalDateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
     }
-
+    public String getInfo() {
+        return getHeading() + " " + getDescription();
+    }
 
     public void setHeading(String heading) {
         this.heading = heading;
@@ -130,6 +106,8 @@ public class Task implements NextTask{
     public int hashCode() {
         return Objects.hash(heading, description, typeOfTask, numberOfTasks, localDateTime);
     }
+
+    public abstract void setDate(LocalDateTime time);
 
     @Override
     public String toString() {
