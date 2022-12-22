@@ -36,16 +36,24 @@ public class NewTaskBook {
                 System.out.println("Введите описание");
                 String description = scanner().nextLine();
                 System.out.println("Введите дату выполнения");
-                int date = scanner.nextInt();
-                if (date > 0) {
-                    System.out.println("Задача добавлена!");
-                }else {
-                    System.out.println("Задача не добавлена");
+                LocalDate time1 = LocalDate.of(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+                try {
+                    if (time1.isBefore(LocalDate.now())) throw new RuntimeException();
+                }catch (RuntimeException e){
+                    return null;
                 }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                System.out.println("Задача была добавлена");
+                if(frequency == 4)
+                    return new YearlyTask(heading, description, typeOfTask, time1);
+                else if(frequency == 3) return new MonthlyTask(heading, description, typeOfTask, time1);
+                else if(frequency == 2) return new WeeklyTask(heading, description, typeOfTask, time1);
+                else if(frequency == 1) return new DailyTask(heading,description,typeOfTask,time1);
+                else return new OnceTask(heading,description,typeOfTask,time1);
+            }catch (InputMismatchException e){
+                System.out.println("Некорректное значение "  );
             }
-        } finally {
+        }catch (DateTimeException e){
+            System.out.println("Некорректное время");
         }
         return null;
     }

@@ -1,9 +1,16 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class MonthlyTask extends Task implements NextTask{
     private LocalDateTime time;
+    private LocalDate time1;
     private final static String monthly = "<ежемесячная> ";
     private final static String exception = "Время выполнения задачи выбрано некорректно";
+
+    public MonthlyTask(String heading, String description, TypeOfTask typeOfTask, LocalDate time1) {
+        super(heading, description, typeOfTask);
+        this.time1 = time1;
+    }
 
     public MonthlyTask(String heading, String description, TypeOfTask typeOfTask, LocalDateTime time) {
         super(heading, description, typeOfTask);

@@ -1,10 +1,17 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class YearlyTask extends Task implements NextTask{
     private LocalDateTime time;
+    private LocalDate time1;
     private final static String yearly = " <ежегодная>";
     private final static String exception = "Время выполнения задачи выбрано некорректно";
+
+    public YearlyTask(String heading, String description, TypeOfTask typeOfTask, LocalDate time1) {
+        super(heading, description, typeOfTask);
+        this.time1 = time1;
+    }
 
     public YearlyTask(String heading, String description, TypeOfTask typeOfTask, LocalDateTime time) {
         super(heading, description, typeOfTask);
